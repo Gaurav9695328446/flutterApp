@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-# demo
-=======
+
 # desktop_app
->>>>>>> flutter setup!
 
 A new Flutter project.
 
