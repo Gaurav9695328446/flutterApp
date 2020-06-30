@@ -1,0 +1,90 @@
+{
+  "info": [
+    {
+      "name": "Booth No",
+      "value": "1"
+    },
+    {
+      "name": "Lane No",
+      "value": "2"
+    },
+    {
+      "name": "Shift",
+      "value": "2"
+    }
+  ],
+  "first_col": [
+    {
+      "name": "F1",
+      "value": "65/- LMV"
+    },
+    {
+      "name": "F2",
+      "value": "110/- LCV"
+    },
+    {
+      "name": "F3",
+      "value": "225/- TRK"
+    },
+    {
+      "name": "F4",
+      "value": "245/- HMV"
+    },
+    {
+      "name": "F5",
+      "value": "355/- NAV"
+    },
+    {
+      "name": "F6",
+      "value": "430/- OCV"
+    }
+  ],
+  "second_col": [
+    {
+      "name": "F9",
+      "value": "CHANGE PASSAGE TYPE"
+    },
+    {
+      "name": "PgDn",
+      "value": "MANUAL TICKET ISSUE"
+    },
+    {
+      "name": "F10",
+      "value": "REPEAT VEHICLE"
+    },
+    {
+      "name": "F11",
+      "value": "DOUBLE CUT(SAME VEHICLE)"
+    },
+    {
+      "name": "F12",
+      "value": "MANUAL INTERRUPTION"
+    }
+  ],
+  "third_col": [
+    {
+      "name": "+",
+      "value": "MH"
+    },
+    {
+      "name": "[]",
+      "value": "KA"
+    },
+    {
+      "name": "*",
+      "value": "GJ"
+    },
+    {
+      "name": "'",
+      "value": "KL"
+    },
+    {
+      "name": ".",
+      "value": "HR"
+    },
+    {
+      "name": "/",
+      "value": "TR"
+    }
+  ]
+}
