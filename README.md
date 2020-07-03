@@ -20,5 +20,4 @@ samples, guidance on mobile development, and a full API reference.
 To use this Flutter desktop app with EPSON print functionality:
 1. Adobe Acrobat Reader
 2. PowerShell windows
-3. EPSON Printer
-4. Printer driver
+3. EPSON Printer driver : https://download.epson-biz.com/modules/pos/index.php?page=single_soft&cid=6454&scat=31&pcat=3
