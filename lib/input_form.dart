@@ -88,6 +88,7 @@ class _TestFormState extends State<TestForm> {
       widget.onVehicleTypeChange(selectedType.name);
       widget.onSelectedTagChange(selectedType.tag);
       model.vehicleType = selectedType.value;
+      model.vehicleTag = selectedType.tag;
     }
     if (event.physicalKey == PhysicalKeyboardKey.f2) {
       setState(() {
@@ -98,6 +99,7 @@ class _TestFormState extends State<TestForm> {
       widget.onVehicleTypeChange(selectedType.name);
       widget.onSelectedTagChange(selectedType.tag);
       model.vehicleType = selectedType.value;
+      model.vehicleTag = selectedType.tag;
     }
     if (event.physicalKey == PhysicalKeyboardKey.f3) {
       setState(() {
@@ -107,6 +109,7 @@ class _TestFormState extends State<TestForm> {
       widget.onVehicleTypeChange(selectedType.name);
       widget.onSelectedTagChange(selectedType.tag);
       model.vehicleType = selectedType.value;
+      model.vehicleTag = selectedType.tag;
     }
     if (event.physicalKey == PhysicalKeyboardKey.f4) {
       setState(() {
@@ -117,6 +120,7 @@ class _TestFormState extends State<TestForm> {
       widget.onVehicleTypeChange(selectedType.name);
       widget.onSelectedTagChange(selectedType.tag);
       model.vehicleType = selectedType.value;
+      model.vehicleTag = selectedType.tag;
     }
     if (event.physicalKey == PhysicalKeyboardKey.f5) {
       setState(() {
@@ -138,6 +142,7 @@ class _TestFormState extends State<TestForm> {
       widget.onVehicleTypeChange(selectedType.name);
       widget.onSelectedTagChange(selectedType.tag);
       model.vehicleType = selectedType.value;
+      model.vehicleTag = selectedType.tag;
     }
   }
 

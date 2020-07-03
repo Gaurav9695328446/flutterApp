@@ -7,19 +7,20 @@ import 'package:desktop_app/model.dart';
 import 'dart:async' show Future;
 import 'package:intl/intl.dart';
 import 'dart:async';
+import './ticket.dart';
+import './ticket_data.dart';
 
 class DashboardItem extends StatefulWidget {
   final Storage storage;
-
-  DashboardItem({Key key, @required this.storage}) : super(key: key);
+  final Ticket ticketFile;
+  DashboardItem({Key key, @required this.storage, @required this.ticketFile})
+      : super(key: key);
 
   @override
   _DashboardItemState createState() => _DashboardItemState();
 }
 
 class _DashboardItemState extends State<DashboardItem> {
-  List devices = [];
-  bool connected = false;
   bool _isVisible = false;
   String selectedValue = '';
   String selectedLabel = '';
@@ -35,6 +36,8 @@ class _DashboardItemState extends State<DashboardItem> {
   Model model = new Model();
   String boothNo = '';
   String laneNo = '';
+  String shiftNo = '';
+  String csvFileName = '';
   final List<Map<String, String>> listOfColumns = [];
 
   void show() {
@@ -44,11 +47,29 @@ class _DashboardItemState extends State<DashboardItem> {
   }
 
   Future<File> writeData() async {
-    return widget.storage.writeData(listOfColumns);
+    return await widget.storage.writeData(listOfColumns, csvFileName);
   }
 
-  Future<String> readData() async {
-    return widget.storage.readData();
+  Future<File> cleanData() async {
+    return await widget.storage.cleanFile(csvFileName);
+  }
+
+  Future<File> writeTicketData() async {
+    final String ticketNo =
+        new DateTime.now().millisecondsSinceEpoch.toString();
+    final String boothInfo = 'Booth :$boothNo/L$laneNo/S$shiftNo';
+    final String dateInfo = new DateFormat('dd/MM/yyyy HH:MM')
+        .format(new DateTime.now())
+        .toString();
+    final String vehicleInfo = vehiclePrefix + '*' + vehicleSuffix;
+    final String vehicleData = vehicleType;
+    final String journeyType = ticketType;
+    final String fee = 'Rs.$selectedValue/-';
+    final String feeInWords = amountInWords(selectedValue);
+
+    final TicketData ticketData = new TicketData(ticketNo, boothInfo, dateInfo,
+        vehicleInfo, vehicleData, journeyType, fee, feeInWords);
+    return await widget.ticketFile.writeData(ticketData);
   }
 
   String dateTime() {
@@ -59,9 +80,47 @@ class _DashboardItemState extends State<DashboardItem> {
     return formatted;
   }
 
+  String amountInWords(amount) {
+    switch (amount) {
+      case '65':
+        return 'Sixty Five Only';
+        break;
+      case '110':
+        return 'One hundred Ten Only';
+        break;
+      case '225':
+        return 'Two Hundred Twenty Five Only';
+        break;
+      case '245':
+        return 'Two Hundred Forty Five Only';
+        break;
+      case '355':
+        return 'Three Hundred Fifty Five Only';
+        break;
+      case '430':
+        return 'Four Hundred Thirty Only';
+        break;
+      default:
+        return '';
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    updateCSVFile();
+  }
+
+  void updateCSVFile() {
+    setState(() {
+      csvFileName = new DateTime.now().toString().replaceAll(':', '-') + '.csv';
+    });
+  }
+
+  void printData() async {
+    var script =
+        'Start-Process –FilePath C:/Users/gaura/Documents/Projects/FlutterApp/ticket.pdf –Verb Print -PassThru | %{sleep 10;} | kill';
+    await Process.run('powershell.exe', ['-command', script]);
   }
 
   @override
@@ -86,8 +145,9 @@ class _DashboardItemState extends State<DashboardItem> {
                   builder: (context, snapshot) {
                     var showData = json.decode(snapshot.data.toString());
                     var rest = showData['info'] as List;
-                    boothNo = showData['booth_no'];
-                    laneNo = showData['lane_no'];
+                    boothNo = '${rest[0]['value']}';
+                    laneNo = '${rest[1]['value']}';
+                    shiftNo = '${rest[2]['value']}';
                     return Text(
                         '${rest[0]['name']} ${rest[0]['value']}   ${rest[1]['name']} ${rest[1]['value']}   |   Collection for $dateMonth   ${rest[2]['name']} ${rest[2]['value']}',
                         style: TextStyle(color: Colors.white, fontSize: 12));
@@ -97,8 +157,6 @@ class _DashboardItemState extends State<DashboardItem> {
             )
           ],
         ),
-        // title: Text("NATIONAL HIGHWAY AUTHORITY OF INDIA",
-        //     style: TextStyle(color: Color(0xffA17510), fontSize: 24)),
         leading: Container(
           child: Image(
             image: AssetImage('barLogo.png'),
@@ -175,6 +233,9 @@ class _DashboardItemState extends State<DashboardItem> {
                                     padding: const EdgeInsets.all(20.0),
                                     child: RaisedButton(
                                         onPressed: () {
+                                          cleanData();
+                                          writeTicketData();
+                                          printData();
                                           formKey.currentState.reset();
                                           setState(() {
                                             listOfColumns.add({
@@ -187,7 +248,8 @@ class _DashboardItemState extends State<DashboardItem> {
                                               "transType":
                                                   '${model.ticketValue}',
                                               "amount": '${model.vehicleType}',
-                                              "vehicleType": vehicleTag
+                                              "vehicleType":
+                                                  '${model.vehicleTag}'
                                             });
                                             _isVisible = false;
                                           });
@@ -224,7 +286,7 @@ class _DashboardItemState extends State<DashboardItem> {
                     decoration:
                         BoxDecoration(border: Border.all(color: Colors.grey)),
                     child: Image(
-                      image: AssetImage('barrier.jpg'),
+                      image: AssetImage('barrier.png'),
                     ),
                   ),
                 ),

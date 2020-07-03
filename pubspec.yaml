@@ -30,7 +30,9 @@ dependencies:
   validators: ^2.0.0+1
   path_provider: ^1.6.11
   csv: ^4.0.3
-  esc_pos_printer: ^3.2.5
+  pdf: ^1.9.0
+  process_run: ^0.10.10+2
+  flutter_html_to_pdf: ^0.5.2
 
 dev_dependencies:
   flutter_test:
@@ -49,7 +51,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - settings.json
-    - barrier.jpg
+    - barrier.png
     - barLogo.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -61,10 +63,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+   - family: OpenSans
+     fonts:
+      - asset: assets/OpenSans-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

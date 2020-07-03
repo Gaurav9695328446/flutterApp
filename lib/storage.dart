@@ -1,32 +1,24 @@
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:csv/csv.dart';
 
 class Storage {
-  List<List<dynamic>> rows = List<List<dynamic>>();
-
   Future<String> get localPath async {
-    final dir = await getApplicationDocumentsDirectory();
+    Directory dir = new Directory('C:/Users/gaura/Documents');
     return dir.path;
   }
 
-  Future<File> get localFile async {
+  Future<File> cleanFile(csvFileName) async {
     final path = await localPath;
-    return File('$path/Flutter/desktop_app/db.csv');
+    final File file = File('$path/$csvFileName');
+    return file.writeAsString('');
   }
 
-  Future<String> readData() async {
-    try {
-      final file = await localFile;
-      String body = await file.readAsString();
-      return body;
-    } catch (e) {
-      return e.toString();
-    }
-  }
+  Future<File> writeData(
+      List<Map<String, String>> listData, csvFileName) async {
+    List<List<dynamic>> rows = List<List<dynamic>>();
+    final path = await localPath;
+    final File file = File('$path/$csvFileName');
 
-  Future<File> writeData(List<Map<String, String>> listData) async {
-    final file = await localFile;
     for (int i = 0; i < listData.length + 1; i++) {
       List<dynamic> row = List();
       if (i == 0) {
